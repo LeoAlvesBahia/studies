@@ -80,7 +80,7 @@ class Rectangle:
     def __eq__(self, other):
         """
         The __eq__ is to set how to compare the object.
-        e.g. Rectangle(10, 10) == Rectangle(10, 10) will return True
+        E.g., Rectangle(10, 10) == Rectangle(10, 10) will return True
         """
         if isinstance(other, Rectangle):
             return (self.width, self.height) == (other.width, other.height)

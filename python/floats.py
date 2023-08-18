@@ -1,9 +1,10 @@
-# region while and for has else
 import math
+from typing import Union
 
+# region equity
 """
-With decimals, we have the problem with infinite numbers such as π that
-is 22/7 = 3.1415926535...
+With decimals, we have the problem with infinite numbers such as
+π = 22/7 = 3.1415926535...
 So this number we can not write it on its exact value, just an
 approximation of its value. With binary numbers, we also have this
 problem.
@@ -133,4 +134,59 @@ print(math.isclose(a=10000.01 + 10000.01 + 10000.01, b=30040.03,
                    rel_tol=1e-3, abs_tol=1e-3))
 print(math.isclose(a=0.01 + 0.01 + 0.01, b=0.04,
                    rel_tol=1e-3, abs_tol=1e-3))
+# endregion
+# region rounding
+"""
+We use the round built-in function to round the number to a specified
+precision. The first argument being the number to be rounded and the
+second argument being the precision. To round at a float precision we
+use positive precision and to round at integer precision we use a
+negative precision. Using 0 as precision (or not specifying) our
+precision will be at the unit position of the integer.
+
+When it come to ties the round function uses the Banker's Rounding that
+rounds to the nearest value with an even digit.
+E.g., 0.5 with precision 0 will be rounded to 0.
+E.g., 1.5 with precision 0 will be rounded to 2.
+E.g., 2.5 with precision 0 will be rounded to 2.
+
+It is basically used to avoid biases. Taking the example from above, if
+we average those numbers we can take the reason behind this.
+No rounding: 0.5 + 1.5 + 2.5 / 3 = 1.5
+Rounding away from zero: 1 + 2 + 3 / 3 = 2
+Banker's Rounding: 0 + 2 + 2 / 3 = 1.3333...
+
+Using last one the value become more closer from the real one, taking
+account the amount of transactions, so it is less biased. But if is
+needed to round away from zero you can use Decimal class from decimal
+module or write your own function.
+"""
+print(round(10.26, 1))
+print(round(10053, -1))
+
+
+def round_integers_away_from_zero(number: Union[int, float]) -> int:
+    """
+    In this function, we copy the sign from the number to 0.5, and we
+    add it to the number, and we truncate the resulting value using the
+    int constructor.
+    This is a good function to round integers away from zero that works
+    properly with negative and positive numbers.
+    """
+    return int(number + math.copysign(0.5, number))
+
+
+print(round_integers_away_from_zero(-12.5))
+
+"""
+Since we have the problem of infinite representations with floats, round
+may run into issues. If exact representations are needed, using the
+Decimal class is recommended since there has multiple rounding
+techniques.
+"""
+print(round(1.85, 1))
+print(f'{round(1.85, 1):.25f}')
+
+print(round(1.95, 1))
+print(f'{round(1.95, 1):.25f}')
 # endregion
