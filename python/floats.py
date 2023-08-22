@@ -1,7 +1,6 @@
 import math
 from typing import Union
 
-# region equity
 """
 With decimals, we have the problem with infinite numbers such as
 π = 22/7 = 3.1415926535...
@@ -38,6 +37,7 @@ print(x == y)
 print(f'{x:.25f}')
 print(f'{y:.25f}')
 
+# region equity
 """
 We have one good way to compare this, taking the difference (Δ) between
 two values and checking if this difference is smaller than our
