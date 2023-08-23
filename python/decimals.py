@@ -41,7 +41,7 @@ print('Decimal instanced as string')
 y = Decimal('1.35')
 print(y)
 # Creating a local context with previously modified context from decimal
-with decimal.localcontext(decimal_context) as d_ctx:
+with decimal.localcontext(decimal_context):
     print('Rounding using local context with ROUND_HALF_UP')
     print(round(x, 1))
     print(round(y, 1))
@@ -52,8 +52,16 @@ print(round(x, 1))
 print(round(y, 1))
 print(decimal.getcontext())
 
-with decimal.localcontext(decimal_context):
-    # TODO figure it out why the print is not a precision 2
+with decimal.localcontext(decimal_context) as d_ctx:
+    """
+    One thing to keep in mind about the prec attribute from the context
+    is that it evaluates considers the total number of digits of a
+    number.
+    If we want to keep always x numbers of decimals places after a
+    certain number we should use other ways to to this, like the
+    quantize() method and it will apply the round method chose from the 
+    context.
+    """
     a = Decimal('1.23456789')
     b = Decimal('9.87654321')
     print(a)
@@ -63,6 +71,11 @@ with decimal.localcontext(decimal_context):
     print(a * b)
     print(a / b)
     print(decimal.getcontext())
+    d_ctx.prec = 14
+    print((a + b).quantize(Decimal('0.00')))
+    print((a - b).quantize(Decimal('0.00')))
+    print((a * b).quantize(Decimal('0.00')))
+    print((a / b).quantize(Decimal('0.00')))
 # endregion
 # region operations
 """
